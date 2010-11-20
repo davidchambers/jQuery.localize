@@ -26,7 +26,7 @@
     };
 
     function load(options) {
-        jQuery.extend(settings, options);
+        jQuery.extend(settings, typeof options == 'string' ? { format: options } : options);
         return this;
     }
 
