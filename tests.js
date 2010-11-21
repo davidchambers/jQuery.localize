@@ -1,6 +1,6 @@
 (function ($) {
 
-    var fails = 0, passes = 0,
+    var expected, fails = 0, passes = 0,
         d1 = new Date(Date.UTC(2008, 6-1, 4, 2)),
         d2 = new Date(Date.UTC(2010, 11-1, 12, 13, 14, 15)),
         t1 = '<time datetime="2008-06-04T02:00-00:00"></time>',
@@ -33,14 +33,17 @@
     assert.equal($(t1).localize('dd').text().length, 2);
     assert.equal($(t2).localize('dd').text().length, 2);
 
-    assert.match($(t1).localize('ddd').text(), /^(Mon|Tues|Wed|Thurs|Fri|Sat|Sun)$/);
-    assert.match($(t2).localize('ddd').text(), /^(Mon|Tues|Wed|Thurs|Fri|Sat|Sun)$/);
+    expected = /^(Mon|Tues|Wed|Thurs|Fri|Sat|Sun)$/;
+    assert.match($(t1).localize('ddd').text(), expected);
+    assert.match($(t2).localize('ddd').text(), expected);
 
-    assert.match($(t1).localize('dddd').text(), /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/);
-    assert.match($(t2).localize('dddd').text(), /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/);
+    expected = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/;
+    assert.match($(t1).localize('dddd').text(), expected);
+    assert.match($(t2).localize('dddd').text(), expected);
 
-    assert.match($(t1).localize('o').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
-    assert.match($(t2).localize('o').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
+    expected = /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/;
+    assert.match($(t1).localize('o').text(), expected);
+    assert.match($(t2).localize('o').text(), expected);
 
     assert.equal($(t1).localize('h').text(), (d1.getHours() % 12 || 12) + '');
     assert.equal($(t2).localize('h').text(), (d2.getHours() % 12 || 12) + '');
@@ -69,8 +72,9 @@
     assert.equal($(t1).localize('a').text(), d1.getHours() < 12 ? 'AM' : 'PM');
     assert.equal($(t2).localize('a').text(), d2.getHours() < 12 ? 'AM' : 'PM');
 
-    assert.match($(t1).localize('Z').text(), /[-+]\d\d:\d\d$/);
-    assert.match($(t2).localize('Z').text(), /[-+]\d\d:\d\d$/);
+    expected = /[-+]\d\d:\d\d$/;
+    assert.match($(t1).localize('Z').text(), expected);
+    assert.match($(t2).localize('Z').text(), expected);
 
     // Confirm graceful failure
 
