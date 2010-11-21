@@ -136,19 +136,16 @@
         });
 
         function formatDate(date, format) {
-            var count = 0, output = '', prev;
-            jQuery.each((format + '☺').split(''), function (index, char) {
-                ++count;
-                if (char !== prev) {
-                    if (prev) {
-                        var fragment = (new Array(count)).join(prev);
-                        output += f.hasOwnProperty(fragment) ? f[fragment](date) : fragment;
-                    }
-                    count = 1;
-                    prev = char;
+            var dir = '', explicit = format.indexOf('%') >= 0, output = '', prev;
+            jQuery.each((format.replace('%%', '☺') + '%').split(''), function (index, char) {
+                if (dir) {
+                    if (char === prev || dir == '%') dir += char;
+                    else output += f.hasOwnProperty(dir = dir.substr(1)) ? f[dir](date) : dir;
                 }
+                if (dir.indexOf('%') < 0) dir = explicit ? char == '%' ? '%' : (output += char, '') : '%' + char;
+                prev = char;
             });
-            return output;
+            return output.replace('☺', '%');
         }
 
         function pad(s, n) {

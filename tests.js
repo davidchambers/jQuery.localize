@@ -86,7 +86,7 @@
         ++fails;
     }
 
-    // API tests
+    // API tests – implicit
 
     assert.match($(t1).localize().text(), /^[34] June 2008$/);
     assert.match($(t2).localize().text(), /^1[23] November 2010$/);
@@ -104,6 +104,19 @@
     assert.match($(t1).localize('dddd').text(), /^(mardi|mercredi)$/);
     assert.equal($(t1).localize({ format: 'yyyy' }).text(), '2008');
     assert.match($(t1).localize().text(), / juin /);
+
+    // API tests – explicit
+
+    $().localize('load', {
+        format: '%d de %mmmm de %yyyy',
+        fullMonths: 'enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre'.split(' ')
+    });
+
+    // "%d" should be interpreted as a directive but "d" should not
+    assert.match($(t1).localize().text(), /^[34] de junio de 2008$/);
+
+    // "%%" should be converted to "%"
+    assert.equal($(t1).localize('80%% complete').text(), '80% complete');
 
     window.alert([passes, 'of', passes + fails, 'tests succeeded'].join(' '));
 
