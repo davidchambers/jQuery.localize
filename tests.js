@@ -39,8 +39,8 @@
     assert.match($(t1).localize('dddd').text(), /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/);
     assert.match($(t2).localize('dddd').text(), /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/);
 
-    assert.match($(t1).localize('dS').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
-    assert.match($(t2).localize('dS').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
+    assert.match($(t1).localize('o').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
+    assert.match($(t2).localize('o').text(), /^([23]?1st|2?2nd|2?3rd|(2?[4-9]|1\d|[23]0)th)$/);
 
     assert.equal($(t1).localize('h').text(), (d1.getHours() % 12 || 12) + '');
     assert.equal($(t2).localize('h').text(), (d2.getHours() % 12 || 12) + '');

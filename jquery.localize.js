@@ -14,12 +14,12 @@
         fullDays: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' '),
         fullMonths: 'January February March April May June July August September October November December'.split(' '),
         ordinals: function (n) {
-            if (10 < n && n < 14) return 'th';
+            if (10 < n && n < 14) return n + 'th';
             switch (n % 10) {
-                case 1: return 'st';
-                case 2: return 'nd';
-                case 3: return 'rd';
-                default: return 'th';
+                case 1: return n + 'st';
+                case 2: return n + 'nd';
+                case 3: return n + 'rd';
+                default: return n + 'th';
             }
         },
         periods: ['AM', 'PM']
@@ -77,7 +77,7 @@
                 return options.fullDays[date.getDay()];
             },
 
-            S: function (date) {
+            o: function (date) {
                 return options.ordinals(date.getDate());
             },
 
