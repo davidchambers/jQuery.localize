@@ -184,4 +184,48 @@ $().localize('load', {
 ```
 
 
+## Custom functions
+
+It's possible to provide a function which receives a date and returns the text
+to be displayed. This is either passed to `localize` directly or "loaded" for
+later use.
+
+* `$('time').localize(fn)`
+* `$().localize('load', fn)`
+
+Within custom functions, `this` references the current `jQuery` instance.
+Custom functions are passed one or more arguments, the first of which is a
+`Date` object (the local equivalent of the element's `datetime` string).
+
+### Relative dates and times
+
+One can create a custom function which returns relative dates and times
+("30 seconds ago", "3 weeks from now", etc.).
+
+```javascript
+$('time').localize(function () {
+  var
+    s = 1, m = 60 * s, h = 60 * m, d = 24 * h,
+    units = [s, m, h, d, 7 * d, 30 * d, 365 * d],
+    names = 'second minute hour day week month year'.split(' '),
+    round = Math.round;
+
+  return function (date) {
+    var
+      delta = round((date - new Date) / 1000) || -1,
+      suffix = delta < 0 ? (delta = Math.abs(delta), 'ago') : 'from now',
+      i = units.length, n, seconds;
+
+    while (i--) {
+      seconds = units[i];
+      if (!i || delta > seconds) {
+        n = round(delta / seconds);
+        return [n, n === 1 ? names[i] : names[i] + 's', suffix].join(' ');
+      }
+    }
+  };
+}());
+```
+
+
 [1]: http://html5doctor.com/the-time-element/

@@ -1,6 +1,6 @@
 (function ($) {
 
-    var expected, fails = 0, passes = 0,
+    var custom, expected, fails = 0, passes = 0,
         d1 = new Date(Date.UTC(2008, 6-1, 4, 2)),
         d2 = new Date(Date.UTC(2010, 11-1, 12, 13, 14, 15)),
         t1 = '<time datetime="2008-06-04T02:00-00:00"></time>',
@@ -121,6 +121,37 @@
 
     // "%%" should be converted to "%"
     assert.equal($(t1).localize('80%% complete').text(), '80% complete');
+
+    // Custom function tests
+
+    // `this` should reference the jQuery instance
+    custom = function (date) {
+        assert.equal(this instanceof jQuery, true);
+    };
+
+    // direct usage
+    $(t1).localize(custom);
+
+    // calling loaded custom function
+    $().localize('load', custom);
+    $(t1).localize('custom');
+
+    // $('time').localize(fn, x, y) -> fn(date, x, y)
+    expected = 'jQuery.localize';
+    custom = function (date, name) {
+        assert.equal(name, expected);
+    };
+
+    // direct usage
+    $(t1).localize(custom, expected);
+
+    // calling loaded custom function
+    $().localize('load', custom);
+    $(t1).localize('custom', expected);
+
+    // custom functions can also be loaded via the options hash
+    $().localize('load', { custom: function (date) { return '☺'; } });
+    assert.equal($(t1).localize('custom').text(), '☺');
 
     window.alert([passes, 'of', passes + fails, 'tests succeeded'].join(' '));
 
