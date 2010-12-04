@@ -131,7 +131,7 @@
             }
         },
 
-        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d))?([-+]\d\d:\d\d|Z)$/;
+        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.]\d+)?)?([-+]\d\d:\d\d|Z)$/;
 
         typeof arg == 'function' ?
             custom = arg :

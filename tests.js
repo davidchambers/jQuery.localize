@@ -6,6 +6,7 @@
         t1 = '<time datetime="2008-06-04T02:00-00:00"></time>',
         t2 = '<time datetime="2010-11-12T13:14:15Z"></time>',
         t3 = '<time datetime="2008-06-04T07:45+05:45"></time>',
+        t4 = '<time datetime="2010-11-12T13:14:15.161718Z"></time>',
         assert = {
             equal: function (a, b) {
                 a === b ? ++passes : ++fails;
@@ -76,6 +77,18 @@
     expected = /[-+]\d\d:\d\d$/;
     assert.match($(t1).localize('Z').text(), expected);
     assert.match($(t2).localize('Z').text(), expected);
+
+    // Fractional second tests
+
+    assert.equal(
+        $(t2).localize().attr('datetime'),
+        $(t4).localize().attr('datetime'));
+
+    assert.equal(
+        $(t2).localize().text(),
+        $(t4).localize().text());
+
+    // Non-UTC time zone offset tests
 
     assert.equal(
         $(t1).localize().attr('datetime'),
