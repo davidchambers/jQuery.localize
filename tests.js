@@ -7,6 +7,7 @@
         t2 = '<time datetime="2010-11-12T13:14:15Z"></time>',
         t3 = '<time datetime="2008-06-04T07:45+05:45"></time>',
         t4 = '<time datetime="2010-11-12T13:14:15.161718Z"></time>',
+        t5 = '<time datetime="2010-09-08T07:06:05.43Z"></time>',
         assert = {
             equal: function (a, b) {
                 a === b ? ++passes : ++fails;
@@ -71,6 +72,12 @@
     assert.equal($(t1).localize('ss').text().length, 2);
     assert.equal($(t2).localize('ss').text().length, 2);
 
+    assert.equal($(t4).localize('S').text(), '15.161');
+    assert.equal($(t5).localize('S').text(), '5.430');
+
+    assert.equal($(t4).localize('SS').text(), '15.161');
+    assert.equal($(t5).localize('SS').text(), '05.430');
+
     assert.equal($(t1).localize('a').text(), d1.getHours() < 12 ? 'AM' : 'PM');
     assert.equal($(t2).localize('a').text(), d2.getHours() < 12 ? 'AM' : 'PM');
 
@@ -79,10 +86,6 @@
     assert.match($(t2).localize('Z').text(), expected);
 
     // Fractional second tests
-
-    assert.equal(
-        $(t2).localize().attr('datetime'),
-        $(t4).localize().attr('datetime'));
 
     assert.equal(
         $(t2).localize().text(),

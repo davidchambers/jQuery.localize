@@ -120,6 +120,14 @@
                 return pad(date.getSeconds());
             },
 
+            S: function (date) {
+                return date.getSeconds() + '.' + pad(date.getMilliseconds(), 3);
+            },
+
+            SS: function (date) {
+                return pad(date.getSeconds()) + '.' + pad(date.getMilliseconds(), 3);
+            },
+
             a: function (date) {
                 return options.periods[date.getHours() < 12 ? 0 : 1];
             },
@@ -131,17 +139,18 @@
             }
         },
 
-        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.]\d+)?)?([-+]\d\d:\d\d|Z)$/;
+        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?([-+]\d\d:\d\d|Z)$/;
 
         typeof arg == 'function' ?
             custom = arg :
             options = jQuery.extend({}, settings, typeof arg == 'string' ? { format: arg } : arg);
 
         return this.each(function () {
-            var $this = $(this), date = $this.attr('datetime'), m;
+            var $this = $(this), date = $this.attr('datetime'), delta, m, ms;
             if (date && (m = date.match(re))) {
-                date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0)), m[7]);
-                $this.attr('datetime', formatDate(date, 'yyyy-mm-ddTHH:MM' + (m[6] ? ':ss' : '') + 'Z'));
+                ms = ((delta = 4 - (ms = m[7] || '000').length) > 1 ? ms + (new Array(delta)).join('0') : ms.substr(0, 3))*1;
+                date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms)), m[8]);
+                $this.attr('datetime', formatDate(date, 'yyyy-mm-ddTHH:MM' + (m[7] ? ':SS' : m[6] ? ':ss' : '') + 'Z'));
                 $this.text(custom ? custom.apply($this, [date].concat(slice.call(args, 1))) : formatDate(date, options.format));
             }
         });

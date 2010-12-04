@@ -18,7 +18,7 @@ attribute provides a useful hook for JavaScript localization.
 Localization is not possible without sufficient data. In order for a `<time>`
 element to be localized, it must contain a `datetime` attribute, and this
 attribute's value must contain year, month, date, hours, minutes, and time
-zone offset. Seconds are optional.
+zone offset. Seconds are optional, and may include a fractional component.
 
 ```html
 <time datetime="2010-11-12T13:14:15-00:00">12 November 2010</time>
@@ -146,6 +146,8 @@ M:    "Minutes"
 MM:   "Minutes, zero-padded"
 s:    "Seconds"
 ss:   "Seconds, zero-padded"
+S:    "Seconds with zero-padded milliseconds"
+SS:   "Seconds, zero-padded, with zero-padded milliseconds"
 a:    "Period (AM/PM)"
 Z:    "Time zone offset (e.g. +10:00)"
 ```
