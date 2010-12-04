@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice;
+    var settings, slice = Array.prototype.slice, version = '0.2.0';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
@@ -190,8 +190,8 @@
     }
 
     jQuery.fn.localize = function (method) {
-        return (method == 'load' ?
-                load.apply(this, slice.call(arguments, 1)) :
+        return (method == 'version' ? version :
+                method == 'load' ? load.apply(this, slice.call(arguments, 1)) :
                 localize.apply(this, method == 'custom' ? [settings.custom].concat(slice.call(arguments, 1)) : arguments));
     };
 

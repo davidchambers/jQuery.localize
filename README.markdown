@@ -65,6 +65,10 @@ the sake of clarity, since it doesn't act upon the elements provided).
 As with regular calls to `localize`, "load" accepts the format string
 shorthand.
 
+### $().localize('version')
+
+Returns the plugin's version number.
+
 
 ## Settings
 
@@ -228,6 +232,26 @@ $('time').localize(function () {
   };
 }());
 ```
+
+
+## Changelog
+
+### 0.2.0
+
+  * Added support for [custom functions](#custom-functions) (and by extension
+    relative dates and times).
+
+  * Added support for time zones other than UTC in `datetime` strings.
+
+  * Liberalized regular expression to accommodate `datetime` strings which
+    include fractional seconds.
+
+  * Added directives for seconds with milliseconds (`S`) and zero-padded
+    seconds with milliseconds (`SS`).
+
+### 0.1.0
+
+Initial release.
 
 
 [1]: http://html5doctor.com/the-time-element/
