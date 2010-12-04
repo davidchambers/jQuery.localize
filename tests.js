@@ -66,11 +66,11 @@
     assert.equal($(t1).localize('MM').text().length, 2);
     assert.equal($(t2).localize('MM').text().length, 2);
 
-    assert.equal($(t1).localize('s').text(), d1.getSeconds() + '');
-    assert.equal($(t2).localize('s').text(), d2.getSeconds() + '');
+    assert.equal($(t1).localize('s').text(), '0');
+    assert.equal($(t2).localize('s').text(), '15');
 
-    assert.equal($(t1).localize('ss').text().length, 2);
-    assert.equal($(t2).localize('ss').text().length, 2);
+    assert.equal($(t1).localize('ss').text(), '00');
+    assert.equal($(t2).localize('ss').text(), '15');
 
     assert.equal($(t4).localize('S').text(), '15.161');
     assert.equal($(t5).localize('S').text(), '5.430');
@@ -124,7 +124,7 @@
     assert.match($(t1).localize().text(), /^[34] June 2008$/);
     assert.match($(t2).localize().text(), /^1[23] November 2010$/);
 
-    assert.match($(t1).localize({ format: 'yyyy' }).text(), /^\d{4}$/);
+    assert.equal($(t1).localize({ format: 'yyyy' }).text(), '2008');
     assert.match($(t1).localize().text(), /^[34] June 2008$/);
 
     $().localize('load', {
