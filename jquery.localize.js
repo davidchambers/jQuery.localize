@@ -131,7 +131,7 @@
             }
         },
 
-        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d))?(?:[-+]00:00|Z)$/;
+        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d))?([-+]\d\d:\d\d|Z)$/;
 
         typeof arg == 'function' ?
             custom = arg :
@@ -140,7 +140,7 @@
         return this.each(function () {
             var $this = $(this), date = $this.attr('datetime'), m;
             if (date && (m = date.match(re))) {
-                date = new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0));
+                date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0)), m[7]);
                 $this.attr('datetime', formatDate(date, 'yyyy-mm-ddTHH:MM' + (m[6] ? ':ss' : '') + 'Z'));
                 $this.text(custom ? custom.apply($this, [date].concat(slice.call(args, 1))) : formatDate(date, options.format));
             }
@@ -157,6 +157,19 @@
                 prev = char;
             });
             return output.replace('☺', '%');
+        }
+
+        function normalize(date, utcOffset) {
+            var add, hours = 0, minutes = 0;
+            if (utcOffset != 'Z') {
+                add = utcOffset.substr(0, 1) == '-';
+                hours = parseInt(utcOffset.substr(1, 2), 10);
+                minutes = parseInt(utcOffset.substr(4), 10);
+            }
+            add ?
+                date.setHours(date.getHours() + hours, date.getMinutes() + minutes) :
+                date.setHours(date.getHours() - hours, date.getMinutes() - minutes);
+            return date;
         }
 
         function pad(s, n) {

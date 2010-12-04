@@ -5,6 +5,7 @@
         d2 = new Date(Date.UTC(2010, 11-1, 12, 13, 14, 15)),
         t1 = '<time datetime="2008-06-04T02:00-00:00"></time>',
         t2 = '<time datetime="2010-11-12T13:14:15Z"></time>',
+        t3 = '<time datetime="2008-06-04T07:45+05:45"></time>',
         assert = {
             equal: function (a, b) {
                 a === b ? ++passes : ++fails;
@@ -75,6 +76,18 @@
     expected = /[-+]\d\d:\d\d$/;
     assert.match($(t1).localize('Z').text(), expected);
     assert.match($(t2).localize('Z').text(), expected);
+
+    assert.equal(
+        $(t1).localize().attr('datetime'),
+        $(t3).localize().attr('datetime'));
+
+    assert.equal(
+        $(t1).localize().text(),
+        $(t3).localize().text());
+
+    assert.equal(
+        $(t1).localize().attr('datetime'),
+        $(t1).localize().localize().attr('datetime'));
 
     // Confirm graceful failure
 
