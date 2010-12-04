@@ -172,8 +172,8 @@
             var add, hours = 0, minutes = 0;
             if (utcOffset != 'Z') {
                 add = utcOffset.substr(0, 1) == '-';
-                hours = parseInt(utcOffset.substr(1, 2), 10);
-                minutes = parseInt(utcOffset.substr(4), 10);
+                hours = utcOffset.substr(1, 2)*1;
+                minutes = utcOffset.substr(4)*1;
             }
             add ?
                 date.setHours(date.getHours() + hours, date.getMinutes() + minutes) :
