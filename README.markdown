@@ -43,6 +43,11 @@ When passed a string rather than an object, the argument represents `format`.
 `$('time').localize('yyyy/mm/dd')` is shorthand for
 `$('time').localize({ format: 'yyyy/mm/dd' })`.
 
+### $('time').localize('custom')
+
+Localize the elements in the provided `jQuery` object using the loaded
+[custom function](#custom-functions).
+
 ### $().localize('load', options)
 
 Sometimes applying the same formatting to all `<time>` elements is not
@@ -196,8 +201,15 @@ It's possible to provide a function which receives a date and returns the text
 to be displayed. This is either passed to `localize` directly or "loaded" for
 later use.
 
-* `$('time').localize(fn)`
-* `$().localize('load', fn)`
+```javascript
+// invoke immediately
+$('time').localize(fn);
+
+// "load" for later use
+$().localize('load', fn);
+// sometime later...
+$('time').localize('custom');
+```
 
 Within custom functions, `this` references the current `jQuery` instance.
 Custom functions are passed one or more arguments, the first of which is a
