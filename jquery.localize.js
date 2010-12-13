@@ -7,16 +7,11 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice, version = '0.2.0';
+    var settings, slice = Array.prototype.slice, version = '0.3.0';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
         abbrMonths: 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' '),
-        custom: function (date) {
-            if (console && typeof console.log == 'function') {
-                console.log("Call jQuery().localize('load', fn) to load a custom function");
-            }
-        },
         format: 'd mmmm yyyy',
         fullDays: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' '),
         fullMonths: 'January February March April May June July August September October November December'.split(' '),
@@ -33,13 +28,13 @@
     };
 
     function load(arg) {
-        jQuery.extend(settings, typeof arg == 'function' ? { custom: arg } : typeof arg == 'string' ? { format: arg } : arg);
+        if (arg) typeof arg == 'object' ? jQuery.extend(settings, arg) : settings.format = arg;
         return this;
     }
 
     function localize(arg) {
 
-        var args = arguments, custom, options,
+        var args = arguments, custom, format,
 
         f = {
 
@@ -139,11 +134,16 @@
             }
         },
 
-        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?([-+]\d\d:\d\d|Z)$/;
+        re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?([-+]\d\d:\d\d|Z)$/,
 
-        typeof arg == 'function' ?
-            custom = arg :
-            options = jQuery.extend({}, settings, typeof arg == 'string' ? { format: arg } : arg);
+        options = jQuery.extend({}, settings);
+
+        // if `arg` is truthy...
+        // merge it into `options` if it's an options hash else assign it to `options.format`
+        if (arg) typeof arg == 'object' ? jQuery.extend(options, arg) : options.format = arg;
+
+        format = options.format;
+        custom = typeof format == 'function';
 
         return this.each(function () {
             var $this = $(this), date = $this.attr('datetime'), delta, m, ms;
@@ -151,7 +151,7 @@
                 ms = ((delta = 4 - (ms = m[7] || '000').length) > 1 ? ms + (new Array(delta)).join('0') : ms.substr(0, 3))*1;
                 date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms)), m[8]);
                 $this.attr('datetime', formatDate(date, 'yyyy-mm-ddTHH:MM' + (m[7] ? ':SS' : m[6] ? ':ss' : '') + 'Z'));
-                $this.text(custom ? custom.apply($this, [date].concat(slice.call(args, 1))) : formatDate(date, options.format));
+                $this.text(custom ? format.apply($this, [date].concat(slice.call(args, 1))) : formatDate(date, format));
             }
         });
 
@@ -192,7 +192,7 @@
     jQuery.fn.localize = function (method) {
         return (method == 'version' ? version :
                 method == 'load' ? load.apply(this, slice.call(arguments, 1)) :
-                localize.apply(this, method == 'custom' ? [settings.custom].concat(slice.call(arguments, 1)) : arguments));
+                localize.apply(this, arguments));
     };
 
 }(jQuery));

@@ -163,7 +163,7 @@
 
     // calling loaded custom function
     $().localize('load', custom);
-    $(t1).localize('custom');
+    $(t1).localize();
 
     // $('time').localize(fn, x, y) -> fn(date, x, y)
     expected = 'jQuery.localize';
@@ -176,11 +176,11 @@
 
     // calling loaded custom function
     $().localize('load', custom);
-    $(t1).localize('custom', expected);
+    $(t1).localize(null, expected);
 
     // custom functions can also be loaded via the options hash
-    $().localize('load', { custom: function (date) { return '☺'; } });
-    assert.equal($(t1).localize('custom').text(), '☺');
+    $().localize('load', { format: function (date) { return '☺'; } });
+    assert.equal($(t1).localize().text(), '☺');
 
     window.alert([passes, 'of', passes + fails, 'tests succeeded'].join(' '));
 
