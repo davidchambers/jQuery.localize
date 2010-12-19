@@ -119,6 +119,16 @@
         ++fails;
     }
 
+    // HTML handling
+
+    assert.equal(
+        $(t1).localize('<span>80%% complete</span>').text(),
+        '<span>80% complete</span>');
+
+    assert.equal(
+        $(t1).localize({ escaped: true, format: '<span>80%% complete</span>' }).text(),
+        '80% complete');
+
     // API tests – implicit
 
     assert.match($(t1).localize().text(), /^[34] June 2008$/);

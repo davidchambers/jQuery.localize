@@ -96,6 +96,13 @@ Abbreviated month names.
 
 Default: `'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')`
 
+### escaped
+
+Determines the jQuery method -- [`text`][2] or [`html`][3] -- to which the
+generated string is passed. Set to `true` if the format string contains HTML.
+
+Default: `false`
+
 ### format
 
 Display format. See [directives](#directives) for more information.
@@ -257,6 +264,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.3.1
+
+  * Added `escaped` setting to allow format strings to contain HTML.
+
 ### 0.3.0
 
   * Streamlined API by mapping [custom functions](#custom-functions) to
@@ -289,3 +300,5 @@ Initial release.
 
 
 [1]: http://html5doctor.com/the-time-element/
+[2]: http://api.jquery.com/text/
+[3]: http://api.jquery.com/html/
