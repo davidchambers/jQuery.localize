@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice, version = '0.3.1';
+    var settings, slice = Array.prototype.slice, version = '0.3.2';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
@@ -147,7 +147,8 @@
         method = options.escaped ? 'html' : 'text';
 
         return this.each(function () {
-            var $this = $(this), date = $this.attr('datetime'), delta, m, ms;
+            var $this = $(this), date, delta, m, ms;
+            date = this.nodeName.toLowerCase() == 'time' && ($this.attr('datetime') || formatDate(new Date(), 'yyyy-mm-ddTHH:MM:ssZ'));
             if (date && (m = date.match(re))) {
                 ms = ((delta = 4 - (ms = m[7] || '000').length) > 1 ? ms + (new Array(delta)).join('0') : ms.substr(0, 3))*1;
                 date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms)), m[8]);

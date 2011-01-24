@@ -105,6 +105,12 @@
         $(t1).localize().attr('datetime'),
         $(t1).localize().localize().attr('datetime'));
 
+    // No `datetime` attribute
+
+    assert.match(
+        $('<time>').localize().attr('datetime'),
+        /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d[-+]\d\d:\d\d/);
+
     // Confirm graceful failure
 
     try {

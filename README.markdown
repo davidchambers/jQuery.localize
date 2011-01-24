@@ -24,6 +24,9 @@ zone offset. Seconds are optional, and may include a fractional component.
 <time datetime="2010-11-12T13:14:15-00:00">12 November 2010</time>
 ```
 
+If passed a `<time>` element _without_ a `datetime` attribute, the current
+time is used.
+
 
 ## Usage
 
@@ -263,6 +266,23 @@ $('time').localize(function () {
 
 
 ## Changelog
+
+### 0.3.2
+
+  * Only `<time>` elements are now localized. Previously, any element with a
+    `datetime` attribute would be localized.
+
+  * An element is no longer required to have a `datetime` attribute in
+    order to be localized. If passed a `<time>` element without a `datetime`
+    attribute, the current time is used.
+
+    ```javascript
+    // 0.3.1
+    $('<time>').localize().attr('datetime') === undefined
+
+    // 0.3.2
+    $('<time>').localize().attr('datetime') !== undefined
+    ```
 
 ### 0.3.1
 
