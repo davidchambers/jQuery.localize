@@ -267,6 +267,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.3.3
+
+  * Renamed `char` variable `chr` to appease Closure Compiler.
+
 ### 0.3.2
 
   * Only `<time>` elements are now localized. Previously, any element with a

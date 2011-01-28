@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice, version = '0.3.2';
+    var settings, slice = Array.prototype.slice, version = '0.3.3';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
@@ -159,14 +159,14 @@
 
         function formatDate(date, format) {
             var dir = '', explicit = format.indexOf('%') >= 0, output = '', prev, safe = options.escaped;
-            jQuery.each((format.replace('%%', '☺') + '%').split(''), function (index, char) {
+            jQuery.each((format.replace('%%', '☺') + '%').split(''), function (index, chr) {
                 if (dir) {
-                    if (char === prev || dir == '%') dir += char;
+                    if (chr === prev || dir == '%') dir += chr;
                     else output += f.hasOwnProperty(dir = dir.substr(1)) ? safe ?
                             f[dir](date)+''.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;') : f[dir](date) : dir;
                 }
-                if (dir.indexOf('%') < 0) dir = explicit ? char == '%' ? '%' : (output += char, '') : '%' + char;
-                prev = char;
+                if (dir.indexOf('%') < 0) dir = explicit ? chr == '%' ? '%' : (output += chr, '') : '%' + chr;
+                prev = chr;
             });
             return output.replace('☺', '%');
         }
