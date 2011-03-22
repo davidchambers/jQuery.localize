@@ -125,6 +125,11 @@
         ++fails;
     }
 
+    // Internal escape character in format string
+
+    assert.equal($(t1).localize('~').text(), '~');
+    assert.equal($(t1).localize('~T').text(), '~T');
+
     // HTML handling
 
     assert.equal(

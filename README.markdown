@@ -267,6 +267,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.3.4
+
+  * Enabled the use of "☺" in format strings!
+
 ### 0.3.3
 
   * Renamed `char` variable `chr` to appease Closure Compiler.

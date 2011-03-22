@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice, version = '0.3.3';
+    var settings, slice = Array.prototype.slice, version = '0.3.4';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
@@ -159,7 +159,7 @@
 
         function formatDate(date, format) {
             var dir = '', explicit = format.indexOf('%') >= 0, output = '', prev, safe = options.escaped;
-            jQuery.each((format.replace('%%', '☺') + '%').split(''), function (index, chr) {
+            jQuery.each((format.replace('~', '~T').replace('%%', '~P') + '%').split(''), function (index, chr) {
                 if (dir) {
                     if (chr === prev || dir == '%') dir += chr;
                     else output += f.hasOwnProperty(dir = dir.substr(1)) ? safe ?
@@ -168,7 +168,7 @@
                 if (dir.indexOf('%') < 0) dir = explicit ? chr == '%' ? '%' : (output += chr, '') : '%' + chr;
                 prev = chr;
             });
-            return output.replace('☺', '%');
+            return output.replace('~P', '%').replace('~T', '~');
         }
 
         function normalize(date, utcOffset) {
