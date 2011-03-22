@@ -159,15 +159,18 @@
 
         function formatDate(date, format) {
             var dir = '', explicit = format.indexOf('%') >= 0, output = '', prev, safe = options.escaped;
-            jQuery.each((format.replace('~', '~T').replace('%%', '~P') + '%').split(''), function (index, chr) {
-                if (dir) {
-                    if (chr === prev || dir == '%') dir += chr;
-                    else output += f.hasOwnProperty(dir = dir.substr(1)) ? safe ?
-                            f[dir](date)+''.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;') : f[dir](date) : dir;
+            jQuery.each(
+                (format.replace('~', '~T').replace('%%', '~P') + '%').split(''),
+                function (index, chr) {
+                    if (dir) {
+                        if (chr === prev || dir == '%') dir += chr;
+                        else output += f.hasOwnProperty(dir = dir.substr(1)) ? safe ?
+                                f[dir](date)+''.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;') : f[dir](date) : dir;
+                    }
+                    if (dir.indexOf('%') < 0) dir = explicit ? chr == '%' ? '%' : (output += chr, '') : '%' + chr;
+                    prev = chr;
                 }
-                if (dir.indexOf('%') < 0) dir = explicit ? chr == '%' ? '%' : (output += chr, '') : '%' + chr;
-                prev = chr;
-            });
+            );
             return output.replace('~P', '%').replace('~T', '~');
         }
 
