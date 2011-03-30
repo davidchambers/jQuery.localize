@@ -267,6 +267,11 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.3.5
+
+  * Changed the way in which the test suite creates `time` elements to have it
+    run in Internet Explorer.
+
 ### 0.3.4
 
   * Enabled the use of "☺" in format strings!

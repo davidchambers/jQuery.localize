@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    var settings, slice = Array.prototype.slice, version = '0.3.4';
+    var settings, slice = Array.prototype.slice, version = '0.3.5';
 
     settings = {
         abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),

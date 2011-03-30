@@ -3,11 +3,7 @@
     var custom, expected, fails = 0, passes = 0,
         d1 = new Date(Date.UTC(2008, 6-1, 4, 2)),
         d2 = new Date(Date.UTC(2010, 11-1, 12, 13, 14, 15)),
-        t1 = '<time datetime="2008-06-04T02:00-00:00"></time>',
-        t2 = '<time datetime="2010-11-12T13:14:15Z"></time>',
-        t3 = '<time datetime="2008-06-04T07:45+05:45"></time>',
-        t4 = '<time datetime="2010-11-12T13:14:15.161718Z"></time>',
-        t5 = '<time datetime="2010-09-08T07:06:05.43Z"></time>',
+        t1, t2, t3, t4, t5,
         assert = {
             equal: function (a, b) {
                 a === b ? ++passes : ++fails;
@@ -16,6 +12,25 @@
                 this.equal(text.match(re) ? true : false, true);
             }
         };
+
+    // Don't use `$` to create `time` elements,
+    // since jQuery uses `innerHTML` internally.
+    // http://jdbartlett.github.com/innershiv/
+
+    t1 = document.createElement('time'),
+    t1.datetime = '2008-06-04T02:00-00:00';
+
+    t2 = document.createElement('time'),
+    t2.datetime = '2010-11-12T13:14:15Z';
+
+    t3 = document.createElement('time'),
+    t3.datetime = '2008-06-04T07:45+05:45';
+
+    t4 = document.createElement('time'),
+    t4.datetime = '2010-11-12T13:14:15.161718Z';
+
+    t5 = document.createElement('time'),
+    t5.datetime = '2010-09-08T07:06:05.43Z';
 
     // Rudimentary directive tests
 
