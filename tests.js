@@ -12,7 +12,7 @@
         a === b ? ++passes : ++fails;
       },
       match: function (text, re) {
-        this.equal(text.match(re) ? true : false, true);
+        this.equal(re.test(text), true);
       }
     };
 
