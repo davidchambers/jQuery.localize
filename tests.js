@@ -133,13 +133,13 @@
 
   try {
     assert.equal($('<time datetime="2010-11-20">Initial release</time>').localize().text(), 'Initial release');
-  } catch (e) {
+  } catch (error) {
     ++fails;
   }
 
   try {
     assert.equal($('<b>jQuery</b>').localize().text(), 'jQuery');
-  } catch (e) {
+  } catch (error) {
     ++fails;
   }
 
