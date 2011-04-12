@@ -15,15 +15,13 @@
       fullDays: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' '),
       fullMonths: 'January February March April May June July August September October November December'.split(' '),
       ordinals: function (n) {
-        if (10 < n && n < 14) {
-          return n + 'th';
-        }
-        switch (n % 10) {
-          case 1: return n + 'st';
-          case 2: return n + 'nd';
-          case 3: return n + 'rd';
-          default: return n + 'th';
-        }
+        if (n < 11 || n > 13) {
+          switch (n % 10) {
+            case 1: return n + 'st';
+            case 2: return n + 'nd';
+            case 3: return n + 'rd';
+          }
+        } return n + 'th';
       },
       periods: ['AM', 'PM']
     },
