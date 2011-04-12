@@ -172,7 +172,7 @@
       function formatDate(date, format) {
         var
           dir = '',
-          explicit = format.indexOf('%') >= 0,
+          explicit = /%/.test(format),
           output = '',
           prev,
           safe = options.escaped;
@@ -192,7 +192,7 @@
                     dir;
               }
             }
-            if (dir.indexOf('%') < 0) {
+            if (!/%/.test(dir)) {
               dir = explicit ? chr === '%' ? '%' : (output += chr, '') : '%' + chr;
             }
             prev = chr;
