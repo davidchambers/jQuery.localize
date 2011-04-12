@@ -29,9 +29,11 @@
 
   function load(arg) {
     if (arg) {
-      typeof arg === 'object'?
-        jQuery.extend(settings, arg):
+      if (typeof arg === 'object') {
+        jQuery.extend(settings, arg);
+      } else {
         settings.format = arg;
+      }
     }
     return this;
   }
@@ -149,9 +151,11 @@
       // merge it into `options` if it's an options
       // hash else assign it to `options.format`
       if (arg) {
-        typeof arg === 'object'?
-          jQuery.extend(options, arg):
+        if (typeof arg === 'object') {
+          jQuery.extend(options, arg);
+        } else {
           options.format = arg;
+        }
       }
 
       format = options.format;
