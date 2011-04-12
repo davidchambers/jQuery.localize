@@ -164,8 +164,14 @@
           m = re.exec($this.attr('datetime') || formatDate(new Date(), 'yyyy-mm-ddTHH:MM:ssZ'));
         }
         if (m) {
-          ms = ((delta = 4 - (ms = m[7] || '000').length) > 1 ? ms + new Array(delta).join('0') : ms.substr(0, 3))*1;
-          date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms)), m[8]);
+          ms = m[7] || '000';
+          delta = 4 - ms.length;
+          if (delta > 1) {
+            ms += new Array(delta).join('0');
+          } else {
+            ms = ms.substr(0, 3);
+          }
+          date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms*1)), m[8]);
           $this.attr('datetime', formatDate(date, 'yyyy-mm-ddTHH:MM' + (m[7] ? ':SS' : m[6] ? ':ss' : '') + 'Z'));
           $this[method](custom ? format.apply($this, [date].concat(slice.call(args, 1))) : formatDate(date, format));
         }
