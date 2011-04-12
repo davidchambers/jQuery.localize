@@ -193,7 +193,16 @@
               }
             }
             if (!/%/.test(dir)) {
-              dir = explicit ? chr === '%' ? '%' : (output += chr, '') : '%' + chr;
+              if (explicit) {
+                if (chr === '%') {
+                  dir = '%';
+                } else {
+                  dir = '';
+                  output += chr;
+                }
+              } else {
+                dir = '%' + chr;
+              }
             }
             prev = chr;
           }
