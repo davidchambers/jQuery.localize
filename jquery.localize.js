@@ -204,7 +204,7 @@
       function normalize(date, utcOffset) {
         var add, hours = 0, minutes = 0;
         if (utcOffset !== 'Z') {
-          add = utcOffset.substr(0, 1) === '-';
+          add = utcOffset.charAt(0) === '-';
           hours = utcOffset.substr(1, 2)*1;
           minutes = utcOffset.substr(4)*1;
         }
