@@ -29,7 +29,7 @@
 
   function load(arg) {
     if (arg) {
-      typeof arg == 'object'?
+      typeof arg === 'object'?
         jQuery.extend(settings, arg):
         settings.format = arg;
     }
@@ -149,18 +149,18 @@
       // merge it into `options` if it's an options
       // hash else assign it to `options.format`
       if (arg) {
-        typeof arg == 'object'?
+        typeof arg === 'object'?
           jQuery.extend(options, arg):
           options.format = arg;
       }
 
       format = options.format;
-      custom = typeof format == 'function';
+      custom = typeof format === 'function';
       method = options.escaped ? 'html' : 'text';
 
       return this.each(function () {
         var $this = $(this), date, delta, m, ms;
-        date = this.nodeName.toLowerCase() == 'time' && ($this.attr('datetime') || formatDate(new Date(), 'yyyy-mm-ddTHH:MM:ssZ'));
+        date = this.nodeName.toLowerCase() === 'time' && ($this.attr('datetime') || formatDate(new Date(), 'yyyy-mm-ddTHH:MM:ssZ'));
         if (date && (m = date.match(re))) {
           ms = ((delta = 4 - (ms = m[7] || '000').length) > 1 ? ms + new Array(delta).join('0') : ms.substr(0, 3))*1;
           date = normalize(new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms)), m[8]);
@@ -180,7 +180,7 @@
           (format.replace('~', '~T').replace('%%', '~P') + '%').split(''),
           function (index, chr) {
             if (dir) {
-              if (chr === prev || dir == '%') {
+              if (chr === prev || dir === '%') {
                 dir += chr;
               } else {
                 dir = dir.substr(1);
@@ -193,7 +193,7 @@
               }
             }
             if (dir.indexOf('%') < 0) {
-              dir = explicit ? chr == '%' ? '%' : (output += chr, '') : '%' + chr;
+              dir = explicit ? chr === '%' ? '%' : (output += chr, '') : '%' + chr;
             }
             prev = chr;
           }
@@ -203,8 +203,8 @@
 
       function normalize(date, utcOffset) {
         var add, hours = 0, minutes = 0;
-        if (utcOffset != 'Z') {
-          add = utcOffset.substr(0, 1) == '-';
+        if (utcOffset !== 'Z') {
+          add = utcOffset.substr(0, 1) === '-';
           hours = utcOffset.substr(1, 2)*1;
           minutes = utcOffset.substr(4)*1;
         }
