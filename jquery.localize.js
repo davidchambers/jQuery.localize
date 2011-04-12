@@ -225,13 +225,14 @@
     }
 
     jQuery.fn.localize = function (method) {
-      return (
-        method == 'version'?
-          version:
-          method == 'load'?
-            load.apply(this, slice.call(arguments, 1)):
-            localize.apply(this, arguments)
-      );
+      switch (method) {
+        case 'version':
+          return version;
+        case 'load':
+          return load.apply(this, slice.call(arguments, 1));
+        default:
+          return localize.apply(this, arguments);
+      }
     };
 
 }(jQuery));
