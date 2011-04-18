@@ -5,9 +5,9 @@
  * https://github.com/davidchambers/jQuery.localize
  */
 
-(function ($) {
+;(function ($) {
   var
-    version = '0.3.5',
+    version = '0.4.0',
     settings = {
       abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
       abbrMonths: 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' '),

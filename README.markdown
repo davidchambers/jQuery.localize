@@ -267,6 +267,12 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.4.0
+
+  * Improved the source code's readability.
+
+  * Minor internal optimizations.
+
 ### 0.3.5
 
   * Changed the way in which the test suite creates `time` elements to have it
