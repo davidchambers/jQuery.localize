@@ -177,7 +177,7 @@
           }
           date = (
             normalize(
-              new Date(Date.UTC(m[1]*1, m[2]*1 - 1, m[3]*1, m[4]*1, m[5]*1, m[6]*1 || 0, ms*1)),
+              new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6] || 0, +ms)),
               m[8]
             )
           );
@@ -238,8 +238,8 @@
         var add, hours = 0, minutes = 0;
         if (utcOffset !== 'Z') {
           add = utcOffset.charAt(0) === '-';
-          hours = utcOffset.substr(1, 2)*1;
-          minutes = utcOffset.substr(4)*1;
+          hours = +utcOffset.substr(1, 2);
+          minutes = +utcOffset.substr(4);
         }
         add?
           date.setHours(date.getHours() + hours, date.getMinutes() + minutes):
