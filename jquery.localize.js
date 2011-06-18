@@ -9,11 +9,11 @@
   var
     version = '0.4.0',
     settings = {
-      abbrDays: 'Sun Mon Tues Wed Thurs Fri Sat'.split(' '),
-      abbrMonths: 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' '),
+      abbrDays: 'Sun0Mon0Tues0Wed0Thurs0Fri0Sat'.split(0),
+      abbrMonths: 'Jan0Feb0Mar0Apr0May0Jun0Jul0Aug0Sep0Oct0Nov0Dec'.split(0),
       format: 'd mmmm yyyy',
-      fullDays: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' '),
-      fullMonths: 'January February March April May June July August September October November December'.split(' '),
+      fullDays: 'Sunday0Monday0Tuesday0Wednesday0Thursday0Friday0Saturday'.split(0),
+      fullMonths: 'January0February0March0April0May0June0July0August0September0October0November0December'.split(0),
       ordinals: function (n) {
         if (n < 11 || n > 13) {
           switch (n % 10) {
@@ -25,12 +25,13 @@
       },
       periods: ['AM', 'PM']
     },
-    slice = Array.prototype.slice;
+    extend = $.extend,
+    slice = [].slice;
 
   function load(arg) {
     if (arg) {
       if (typeof arg === 'object') {
-        jQuery.extend(settings, arg);
+        extend(settings, arg);
       } else {
         settings.format = arg;
       }
@@ -137,22 +138,21 @@
         },
 
         Z: function (date) {
-          var mins = -date.getTimezoneOffset(), sign = mins > 0 ? '+' : '-';
-          mins >= 0 || (mins = -mins);
-          return sign + pad(mins/60 >> 0) + ':' + pad(mins % 60);
+          var offset = -date.getTimezoneOffset(), mins = Math.abs(offset);
+          return (offset > 0 ? '+' : '-') + pad(mins / 60 >> 0) + ':' + pad(mins % 60);
         }
       },
 
-      re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?([-+]\d\d:\d\d|Z)$/,
+      re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?(?:([-+]\d\d):(\d\d)|Z)$/,
 
-      options = jQuery.extend({}, settings);
+      options = extend({}, settings);
 
       // if `arg` is truthy...
       // merge it into `options` if it's an options
       // hash else assign it to `options.format`
       if (arg) {
         if (typeof arg === 'object') {
-          jQuery.extend(options, arg);
+          extend(options, arg);
         } else {
           options.format = arg;
         }
@@ -165,20 +165,20 @@
       return this.each(function () {
         var $this = $(this), date, delta, m, ms;
         if (this.nodeName.toLowerCase() === 'time') {
-          m = re.exec($this.attr('datetime') || formatDate(new Date(), 'yyyy-mm-ddTHH:MM:ssZ'));
+          m = re.exec($this.attr('datetime') || formatDate(new Date, 'yyyy-mm-ddTHH:MM:ssZ'));
         }
         if (m) {
           ms = m[7] || '000';
           delta = 4 - ms.length;
           if (delta > 1) {
-            ms += new Array(delta).join('0');
+            ms += new Array(delta).join(0);
           } else {
             ms = ms.substr(0, 3);
           }
           date = (
             normalize(
               new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6] || 0, +ms)),
-              m[8]
+              +m[8], m[9]
             )
           );
           $this.attr(
@@ -200,7 +200,8 @@
           output = '',
           prev,
           safe = options.escaped;
-        jQuery.each(
+
+        $.each(
           (format.replace('~', '~T').replace('%%', '~P') + '%').split(''),
           function (index, chr) {
             if (dir) {
@@ -234,36 +235,31 @@
         return output.replace('~P', '%').replace('~T', '~');
       }
 
-      function normalize(date, utcOffset) {
-        var add, hours = 0, minutes = 0;
-        if (utcOffset !== 'Z') {
-          add = utcOffset.charAt(0) === '-';
-          hours = +utcOffset.substr(1, 2);
-          minutes = +utcOffset.substr(4);
-        }
-        add?
-          date.setHours(date.getHours() + hours, date.getMinutes() + minutes):
-          date.setHours(date.getHours() - hours, date.getMinutes() - minutes);
+      function normalize(date, offsetHours, offsetMinutes) {
+        if (!offsetMinutes) return date;
+
+        date.setHours(
+          date.getHours() - offsetHours,
+          date.getMinutes() + (offsetHours > 0 ? -1 : 1) * offsetMinutes
+        );
         return date;
       }
 
       function pad(s, n) {
         s += '';
-        n || (n = 2);
-        var delta = n - s.length;
-        return delta > 0 ? new Array(++delta).join('0') + s : s;
+        var delta = (n || 2) - s.length;
+        return delta > 0 ? new Array(++delta).join(0) + s : s;
       }
     }
 
-    jQuery.fn.localize = function (method) {
+    $.fn.localize = function (method) {
       switch (method) {
         case 'version':
           return version;
         case 'load':
           return load.apply(this, slice.call(arguments, 1));
-        default:
-          return localize.apply(this, arguments);
       }
+      return localize.apply(this, arguments);
     };
 
 }(jQuery));
