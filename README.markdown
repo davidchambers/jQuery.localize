@@ -267,6 +267,13 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.5.0
+
+  * Updated the test suite to have it run against as many versions of jQuery
+    as is feasible.
+
+  * Reduced the size of the minified code by more than 10%.
+
 ### 0.4.0
 
   * Improved the source code's readability.
