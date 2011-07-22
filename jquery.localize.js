@@ -7,7 +7,7 @@
 
 ;(function ($) {
   var
-    version = '0.5.0',
+    version = '0.5.1',
     split = 'split',
     settings = {
       abbrDays: 'Sun0Mon0Tues0Wed0Thurs0Fri0Sat'[split](0),
@@ -62,8 +62,8 @@
         MM    : function (date) { return pad(_.M(date)); },
         s     : function (date) { return date.getSeconds(); },
         ss    : function (date) { return pad(_.s(date)); },
-        S     : function (date) { return _.s(date) + '.' + pad(date % 1e3, 3); },
-        SS    : function (date) { return pad(_.S(date), 6); },
+        S     : function (date) { return _.s(date) + '.' + pad(date % 1000, 3); },
+        SS    : function (date) { return _.ss(date) + '.' + pad(date % 1000, 3); },
         a     : function (date) { return options.periods[+(_.H(date) > 11)]; },
         Z     : function (date) { var offset = -date.getTimezoneOffset(), mins = Math.abs(offset);
                                   return (offset < 0 ? '-' : '+') + pad(mins / 60 >> 0) + ':' + pad(mins % 60); }
@@ -165,10 +165,8 @@
         return date;
       }
 
-      function pad(s, n) {
-        s += '';
-        var delta = (n || 2) - s.length;
-        return delta > 0 ? new Array(++delta).join(0) + s : s;
+      function pad(num, chars) {
+        return (num + 1000 + '').substr(4 - (chars || 2));
       }
     }
 

@@ -267,6 +267,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.5.1
+
+  * Optimized internal `pad` function.
+
 ### 0.5.0
 
   * Updated the test suite to have it run against as many versions of jQuery
