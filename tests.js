@@ -151,7 +151,7 @@
     $1.localize({escaped: true, format: '<span>80%% complete</span>'}).text(),
     '80% complete');
 
-  // API tests – implicit
+  // API tests
 
   assert.match($1.localize().text(), /^[34] June 2008$/);
   assert.match($2.localize().text(), /^1[23] November 2010$/);
@@ -159,7 +159,7 @@
   assert.equal($1.localize({format: 'yyyy'}).text(), '2008');
   assert.match($1.localize().text(), /^[34] June 2008$/);
 
-  $().localize('load', {
+  $.fn.localize({
     format: 'd mmmm yyyy',
     fullDays: 'dimanche lundi mardi mercredi jeudi vendredi samedi'.split(' '),
     fullMonths: 'janvier février mars avril mai juin juillet août septembre octobre novembre décembre'.split(' ')
@@ -170,9 +170,7 @@
   assert.equal($1.localize({format: 'yyyy'}).text(), '2008');
   assert.match($1.localize().text(), / juin /);
 
-  // API tests – explicit
-
-  $().localize('load', {
+  $.fn.localize({
     format: '%d de %mmmm de %yyyy',
     fullMonths: 'enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre'.split(' ')
   });
@@ -194,7 +192,7 @@
   $1.localize(custom);
 
   // calling loaded custom function
-  $().localize('load', custom);
+  $.fn.localize(custom);
   $1.localize();
 
   // $('time').localize(fn, x, y) -> fn(date, x, y)
@@ -207,12 +205,15 @@
   $1.localize(custom, expected);
 
   // calling loaded custom function
-  $().localize('load', custom);
+  $.fn.localize(custom);
   $1.localize(null, expected);
 
   // custom functions can also be loaded via the options hash
-  $().localize('load', {format: function (date) { return '☺'; }});
+  $.fn.localize({format: function (date) { return '☺'; }});
   assert.equal($1.localize().text(), '☺');
+
+  // version property
+  assert.equal(typeof $.fn.localize.version, 'string');
 
   console.log(n - failures + ' of ' + n + ' tests succeeded for jQuery ' + $().jquery);
 

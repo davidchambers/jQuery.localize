@@ -7,7 +7,7 @@
 
 ;(function ($) {
   var
-    version = '0.5.1',
+    version = '0.6.0',
     split = 'split',
     settings = {
       abbrDays: 'Sun0Mon0Tues0Wed0Thurs0Fri0Sat'[split](0),
@@ -28,17 +28,6 @@
     },
     extend = $.extend,
     slice = [].slice;
-
-  function load(arg) {
-    if (arg) {
-      if (typeof arg === 'object') {
-        extend(settings, arg);
-      } else {
-        settings.format = arg;
-      }
-    }
-    return this;
-  }
 
   function localize(arg) {
     var
@@ -78,11 +67,8 @@
       // merge it into `options` if it's an options
       // hash else assign it to `options.format`
       if (arg) {
-        if (typeof arg === 'object') {
-          extend(options, arg);
-        } else {
-          options.format = arg;
-        }
+        if (typeof arg === 'object')  extend(options, arg);
+        else                          options.format = arg;
       }
 
       format = options.format;
@@ -170,14 +156,16 @@
       }
     }
 
-    $.fn.localize = function (method) {
-      switch (method) {
-        case 'version':
-          return version;
-        case 'load':
-          return load.apply(this, slice.call(arguments, 1));
+    $.fn.localize = function (arg) {
+      // method invocation, e.g. $('time').localize()
+      if (this instanceof $) {
+        return localize.apply(this, arguments);
       }
-      return localize.apply(this, arguments);
+      // direct invocation, e.g. $.fn.localize('yyyy-mm-dd')
+      if (typeof arg === 'object')  extend(settings, arg);
+      else                          settings.format = arg;
     };
+
+    $.fn.localize.version = version;
 
 }(jQuery));

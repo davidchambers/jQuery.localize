@@ -21,7 +21,7 @@ attribute's value must contain year, month, date, hours, minutes, and time
 zone offset. Seconds are optional, and may include a fractional component.
 
 ```html
-<time datetime="2010-11-12T13:14:15-00:00">12 November 2010</time>
+<time datetime="2010-11-12T13:14:15+00:00">12 November 2010</time>
 ```
 
 If passed a `<time>` element _without_ a `datetime` attribute, the current
@@ -38,49 +38,53 @@ Localize the elements in the provided `jQuery` object using the "default"
 ### $('time').localize(options)
 
 Localize the elements in the provided `jQuery` object, favouring settings
-in the `options` object over the "default" [settings](#settings).
+in the `options` hash over the "default" [settings](#settings).
 
 ### $('time').localize(format)
 
-When passed a string rather than an object, the argument represents `format`.
+When passed a string (or function), the argument represents `format`.
 `$('time').localize('yyyy/mm/dd')` is shorthand for
-`$('time').localize({ format: 'yyyy/mm/dd' })`.
+`$('time').localize({format: 'yyyy/mm/dd'})`.
 
-### $().localize('load', options)
+### $.fn.localize(options)
 
-Sometimes applying the same formatting to all `<time>` elements is not
-appropriate. Perhaps times are displayed alongside comment dates but not post
-dates. In such situations it's possible to avoid repetition by overriding the
-defaults for all future calls to `localize`.
+Update one or more default [settings](#settings) using values from the
+`options` hash.
+
+Applying the same formatting to all `<time>` elements may not be appropriate.
+Perhaps times are displayed alongside comment dates but not article dates. In
+such situations, updating the default settings avoids repetition.
 
 ```javascript
-$().localize('load', {
-    format: 'yyyy/mm/dd',
-    periods: ['a.m.', 'p.m.']
+$.fn.localize({
+  abbrDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
+  format: 'ddd o mmm yyyy',
+  periods: ['am', 'pm']
 });
+
+$('.article-metadata time').localize();
+$('.comment-metadata time').localize('h:MMa ddd o mmm yyyy');
 ```
 
-Note that "load" can be called on an empty `jQuery` object (and should, for
-the sake of clarity, since it doesn't act upon the elements provided).
+### $.fn.localize(format)
 
-### $().localize('load', format)
+Update the default `format` setting.
 
-As with regular calls to `localize`, "load" accepts the format string
-shorthand.
+`$.fn.localize('o mmm')` is shorthand for `$.fn.localize({format: 'o mmm'})`.
 
-### $().localize('version')
+### $.fn.localize.version
 
-Returns the plugin's version number.
+The plugin's version number.
 
 
 ## Settings
 
-Settings can be specified by passing an `options` object to `localize`.
+Settings can be specified by passing an `options` hash to `localize`.
 
 ```javascript
 $('time').localize({
-    abbrDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
-    format: 'ddd o mmm yyyy'
+  abbrDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
+  format: 'ddd o mmm yyyy'
 });
 ```
 
@@ -191,11 +195,11 @@ these aren't much help if a page's content is in Japanese or Icelandic.
 Thankfully, non-English languages work equally well.
 
 ```javascript
-$().localize('load', {
-    format: '%d de %mmmm de %yyyy',
-    fullDays: 'domingo lunes martes miércoles jueves viernes sábado'.split(' '),
-    fullMonths: 'enero febrero marzo abril mayo junio julio ' +
-                'agosto septiembre octubre noviembre diciembre'.split(' ')
+$.fn.localize({
+  format: '%d de %mmmm de %yyyy',
+  fullDays: 'domingo lunes martes miércoles jueves viernes sábado'.split(' '),
+  fullMonths: ('enero febrero marzo abril mayo junio julio ' +
+               'agosto septiembre octubre noviembre diciembre').split(' ')
 });
 ```
 
@@ -211,7 +215,7 @@ later use.
 $('time').localize(fn);
 
 // "load" for later use
-$().localize('load', fn);
+$.fn.localize(fn);
 // sometime later...
 $('time').localize();
 ```
@@ -266,6 +270,30 @@ $('time').localize(function () {
 
 
 ## Changelog
+
+### 0.6.0
+
+  * Changed the API for updating settings. `jQuery.fn.localize` must now be
+    invoked directly, rather than via `$().localize`. As a result, it's clear
+    whether an invocation updates settings or acts upon a `jQuery` object.
+    
+    ```javascript
+    // 0.5.1
+    $().localize('load', 'o mmm')
+
+    // 0.6.0
+    $.fn.localize('o mmm')
+    ```
+
+  * Changed the way in which the version number is accessed.
+    
+    ```javascript
+    // 0.5.1
+    $().localize('version')
+
+    // 0.6.0
+    $.fn.localize.version
+    ```
 
 ### 0.5.1
 
