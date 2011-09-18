@@ -46,96 +46,98 @@ When passed a string (or function), the argument represents `format`.
 `$('time').localize('yyyy/mm/dd')` is shorthand for
 `$('time').localize({format: 'yyyy/mm/dd'})`.
 
-### $.fn.localize(options)
+### $.localize(date, format)
 
-Update one or more default [settings](#settings) using values from the
-`options` hash.
+Return `date` in the specified `format`.
 
-Applying the same formatting to all `<time>` elements may not be appropriate.
-Perhaps times are displayed alongside comment dates but not article dates. In
-such situations, updating the default settings avoids repetition.
+### $.localize(date)
 
-```javascript
-$.fn.localize({
-  abbrDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
-  format: 'ddd o mmm yyyy',
-  periods: ['am', 'pm']
-});
+Return `date` in the format specified by `$.localize.format`.
 
-$('.article-metadata time').localize();
-$('.comment-metadata time').localize('h:MMa ddd o mmm yyyy');
-```
+### $.localize(format)
 
-### $.fn.localize(format)
+Return the current date in the specified `format`.
 
-Update the default `format` setting.
+### $.localize()
 
-`$.fn.localize('o mmm')` is shorthand for `$.fn.localize({format: 'o mmm'})`.
+Return the current date in the format specified by `$.localize.format`.
 
-### $.fn.localize.version
+### $.localize.version
 
 The plugin's version number.
 
 
 ## Settings
 
-Settings can be specified by passing an `options` hash to `localize`.
+Settings can be specified by passing an `options` hash to `$.fn.localize`.
 
 ```javascript
 $('time').localize({
-  abbrDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
+  abbrDays: 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(','),
   format: 'ddd o mmm yyyy'
 });
 ```
 
-In this case the options provided (`abbrDays` and `format`) will be used in
+In this case the provided options (`abbrDays` and `format`) will be used in
 place of the corresponding defaults.
 
-### abbrDays
+The defaults (which are properties of `$.localize`) can be changed to avoid
+repetition.
+
+```javascript
+$.localize.abbrDays = 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(',');
+$.localize.format = 'ddd o mmm yyyy';
+$.localize.periods = ['am', 'pm'];
+
+$('.article-metadata time').localize();
+$('.comment-metadata time').localize('h:MMa ddd o mmm yyyy');
+```
+
+### $.localize.abbrDays
 
 Abbreviated day names.
 
 Default: `'Sun Mon Tues Wed Thurs Fri Sat'.split(' ')`
 
-### abbrMonths
+### $.localize.abbrMonths
 
 Abbreviated month names.
 
 Default: `'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')`
 
-### escaped
+### $.localize.escaped
 
 Determines the jQuery method -- [`text`][2] or [`html`][3] -- to which the
 generated string is passed. Set to `true` if the format string contains HTML.
 
 Default: `false`
 
-### format
+### $.localize.format
 
 Display format. See [directives](#directives) for more information.
 
 Default: `'d mmmm yyyy'`
 
-### fullDays
+### $.localize.fullDays
 
 Full day names.
 
 Default: `'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' ')`
 
-### fullMonths
+### $.localize.fullMonths
 
 Full month names.
 
 Default: `'January February March April May June July
            August September October November December'.split(' ')`
 
-### ordinals
+### $.localize.ordinals
 
 Ordinal dates (1st, 2nd, 3rd, etc.).
 
 Default: Function with returns `'1st'` given `1`, `'2nd'` given `2`, etc.
 
-### periods
+### $.localize.periods
 
 AM/PM.
 
@@ -195,48 +197,19 @@ these aren't much help if a page's content is in Japanese or Icelandic.
 Thankfully, non-English languages work equally well.
 
 ```javascript
-$.fn.localize({
-  format: '%d de %mmmm de %yyyy',
-  fullDays: 'domingo lunes martes miércoles jueves viernes sábado'.split(' '),
-  fullMonths: ('enero febrero marzo abril mayo junio julio ' +
-               'agosto septiembre octubre noviembre diciembre').split(' ')
-});
+$.localize.format = '%d de %mmmm de %yyyy';
+$.localize.fullDays = 'domingo,lunes,martes,miércoles,jueves,viernes,sábado'.split(',');
+$.localize.fullMonths = ['enero', 'febrero', 'marzo', 'abril', 'mayo',
+                         'junio', 'julio', 'agosto', 'septiembre',
+                         'octubre', 'noviembre', 'diciembre'];
 ```
 
 
 ## Custom functions
 
-It's possible to provide a function which receives a date and returns the text
-to be displayed. This is either passed to `localize` directly or "loaded" for
-later use.
-
-```javascript
-// invoke immediately
-$('time').localize(fn);
-
-// "load" for later use
-$.fn.localize(fn);
-// sometime later...
-$('time').localize();
-```
-
-Within custom functions, `this` references the current `jQuery` instance.
-Custom functions are passed one or more arguments, the first of which is a
-`Date` object (the local equivalent of the element's `datetime` string).
-
-### Passing additional arguments to custom functions
-
-```javascript
-$('time').localize(fn, arg1, ..., argN);
-```
-
-Arguments **beyond the first** passed to `localize` are handed on to the
-custom function. To pass arguments to a "loaded" custom function, set the
-first argument to `null`.
-
-```javascript
-$('time').localize(null, arg1, ..., argN);
-```
+While `format` is typically a string containing [directives](#directives), it
+may instead be a function that takes a `Date` object (the local equivalent of
+the element's `datetime` string) and returns the text to be displayed.
 
 ### Relative dates and times
 
@@ -270,6 +243,31 @@ $('time').localize(function () {
 
 
 ## Changelog
+
+### 0.7.0
+
+  * Exposed formatting function (formerly `formatDate`) as `jQuery.localize`.
+
+  * Changed the API for updating settings. Settings are now properties of
+    `jQuery.localize` and can thus be updated via assignment.
+    
+    ```javascript
+    // 0.6.0
+    $.fn.localize('o mmm')
+
+    // 0.7.0
+    $.localize.format = 'o mmm'
+    ```
+
+  * Changed the way in which the version number is accessed.
+    
+    ```javascript
+    // 0.6.0
+    $.fn.localize.version
+
+    // 0.7.0
+    $.localize.version
+    ```
 
 ### 0.6.0
 

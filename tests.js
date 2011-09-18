@@ -1,6 +1,5 @@
 (function ($) {
   var
-    custom,
     expected,
     failures = 0,
     n = 0,
@@ -22,6 +21,9 @@
           failures += 1;
           console.error('test ' + n + ' failed: expected', _(b), 'not', _(a));
         }
+      },
+      instanceOf: function (instance, constructor) {
+        this.equal(instance instanceof constructor, true);
       },
       match: function (text, re) {
         this.equal(re.test(text), true);
@@ -159,21 +161,17 @@
   assert.equal($1.localize({format: 'yyyy'}).text(), '2008');
   assert.match($1.localize().text(), /^[34] June 2008$/);
 
-  $.fn.localize({
-    format: 'd mmmm yyyy',
-    fullDays: 'dimanche lundi mardi mercredi jeudi vendredi samedi'.split(' '),
-    fullMonths: 'janvier février mars avril mai juin juillet août septembre octobre novembre décembre'.split(' ')
-  });
+  $.localize.format = 'd mmmm yyyy';
+  $.localize.fullDays = 'dimanche lundi mardi mercredi jeudi vendredi samedi'.split(' ');
+  $.localize.fullMonths = 'janvier février mars avril mai juin juillet août septembre octobre novembre décembre'.split(' ');
 
   assert.match($1.localize().text(), / juin /);
   assert.match($1.localize('dddd').text(), /^(mardi|mercredi)$/);
   assert.equal($1.localize({format: 'yyyy'}).text(), '2008');
   assert.match($1.localize().text(), / juin /);
 
-  $.fn.localize({
-    format: '%d de %mmmm de %yyyy',
-    fullMonths: 'enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre'.split(' ')
-  });
+  $.localize.format = '%d de %mmmm de %yyyy';
+  $.localize.fullMonths = 'enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre'.split(' ');
 
   // "%d" should be interpreted as a directive but "d" should not
   assert.match($1.localize().text(), /^[34] de junio de 2008$/);
@@ -181,39 +179,40 @@
   // "%%" should be converted to "%"
   assert.equal($1.localize('80%% complete').text(), '80% complete');
 
-  // Custom function tests
+  // direct custom function usage
+  $1.localize(function (date) {
+    assert.instanceOf(this, jQuery);
+    assert.instanceOf(date, Date);
+    return 'jQuery.localize';
+  });
+  assert.equal($1.text(), 'jQuery.localize');
 
-  // `this` should reference the jQuery instance
-  custom = function (date) {
-    assert.equal(this instanceof jQuery, true);
+  // custom function as default format
+  $.localize.format = function (date) {
+    assert.instanceOf(this, jQuery);
+    assert.instanceOf(date, Date);
+    return 'jQuery.localize';
   };
+  assert.equal($1.localize().text(), 'jQuery.localize');
 
-  // direct usage
-  $1.localize(custom);
+  // $.localize(date, format)
+  assert.equal($.localize(new Date('26 April 1984'), 'yy'), '84');
 
-  // calling loaded custom function
-  $.fn.localize(custom);
-  $1.localize();
+  // $.localize(date)
+  $.localize.format = 'yyyy-mm-dd';
+  assert.equal($.localize(new Date('26 April 1984')), '1984-04-26');
 
-  // $('time').localize(fn, x, y) -> fn(date, x, y)
-  expected = 'jQuery.localize';
-  custom = function (date, name) {
-    assert.equal(name, expected);
+  // $.localize(format)
+  assert.match($.localize('d/m/yyyy'), /^[123]?\d\/1?\d\/20\d\d$/);
+
+  // $.localize()
+  $.localize.format = function (date) {
+    return date.getFullYear();
   };
-
-  // direct usage
-  $1.localize(custom, expected);
-
-  // calling loaded custom function
-  $.fn.localize(custom);
-  $1.localize(null, expected);
-
-  // custom functions can also be loaded via the options hash
-  $.fn.localize({format: function (date) { return '☺'; }});
-  assert.equal($1.localize().text(), '☺');
+  assert.match($.localize(), /^20\d\d$/);
 
   // version property
-  assert.equal(typeof $.fn.localize.version, 'string');
+  assert.equal(typeof $.localize.version, 'string');
 
   console.log(n - failures + ' of ' + n + ' tests succeeded for jQuery ' + $().jquery);
 
