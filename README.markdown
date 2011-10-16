@@ -73,7 +73,7 @@ Settings can be specified by passing an `options` hash to `$.fn.localize`.
 
 ```javascript
 $('time').localize({
-  abbrDays: 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(','),
+  abbrDays: 'Sun,Mon,Tues,Wed,Thurs,Fri,Sat'.split(','),
   format: 'ddd o mmm yyyy'
 });
 ```
@@ -85,7 +85,7 @@ The defaults (which are properties of `$.localize`) can be changed to avoid
 repetition.
 
 ```javascript
-$.localize.abbrDays = 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(',');
+$.localize.abbrDays = 'Sun,Mon,Tues,Wed,Thurs,Fri,Sat'.split(',');
 $.localize.format = 'ddd o mmm yyyy';
 $.localize.periods = ['am', 'pm'];
 
@@ -97,7 +97,7 @@ $('.comment-metadata time').localize('h:MMa ddd o mmm yyyy');
 
 Abbreviated day names.
 
-Default: `'Sun Mon Tues Wed Thurs Fri Sat'.split(' ')`
+Default: `'Sun Mon Tue Wed Thu Fri Sat'.split(' ')`
 
 ### $.localize.abbrMonths
 
@@ -243,6 +243,17 @@ $('time').localize(function () {
 
 
 ## Changelog
+
+### 0.7.1
+
+  * Changed the initial value of `jQuery.localize.abbrDays` for consistency
+    with JavaScript's abbreviations.
+    
+    ```javascript
+    new Date('18 October 2011') // Tue Oct 18 2011 00:00:00 GMT-0700 (PDT)
+    ```
+    
+    Tuesday and Thursday are now abbreviated as "Tue" and "Thu", respectively.
 
 ### 0.7.0
 

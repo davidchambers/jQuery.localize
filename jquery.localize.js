@@ -7,7 +7,7 @@
 
 ;(function ($) {
   var
-  version = '0.7.0',
+  version = '0.7.1',
   extend = $.extend,
   re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?(?:([-+]\d\d):(\d\d)|Z)$/,
   normalize = function (date, offsetHours, offsetMinutes) {
@@ -95,7 +95,7 @@
 
   // Defaults.
   extend($localize, {
-    abbrDays: 'Sun,Mon,Tues,Wed,Thurs,Fri,Sat'.split(','),
+    abbrDays: 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(','),
     abbrMonths: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(','),
     format: 'd mmmm yyyy',
     fullDays: 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'.split(','),

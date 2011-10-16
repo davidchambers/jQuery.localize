@@ -49,7 +49,7 @@
   assert.equal($1.localize('dd').text().length, 2);
   assert.equal($2.localize('dd').text().length, 2);
 
-  expected = /^(Mon|Tues|Wed|Thurs|Fri|Sat|Sun)$/;
+  expected = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$/;
   assert.match($1.localize('ddd').text(), expected);
   assert.match($2.localize('ddd').text(), expected);
 
