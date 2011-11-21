@@ -30,6 +30,25 @@
       }
     };
 
+  // Ordinal tests
+
+  assert.equal($.localize.ordinals(1), '1st')
+  assert.equal($.localize.ordinals(2), '2nd')
+  assert.equal($.localize.ordinals(3), '3rd')
+  assert.equal($.localize.ordinals(4), '4th')
+  assert.equal($.localize.ordinals(10), '10th')
+  assert.equal($.localize.ordinals(11), '11th')
+  assert.equal($.localize.ordinals(12), '12th')
+  assert.equal($.localize.ordinals(13), '13th')
+  assert.equal($.localize.ordinals(14), '14th')
+  assert.equal($.localize.ordinals(20), '20th')
+  assert.equal($.localize.ordinals(21), '21st')
+  assert.equal($.localize.ordinals(22), '22nd')
+  assert.equal($.localize.ordinals(23), '23rd')
+  assert.equal($.localize.ordinals(24), '24th')
+  assert.equal($.localize.ordinals(30), '30th')
+  assert.equal($.localize.ordinals(31), '31st')
+
   // Rudimentary directive tests
 
   assert.equal($1.localize('yy').text(), '08');

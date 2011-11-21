@@ -244,6 +244,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.7.2
+
+  * Optimized `jQuery.localize.ordinals`.
+
 ### 0.7.1
 
   * Changed the initial value of `jQuery.localize.abbrDays` for consistency

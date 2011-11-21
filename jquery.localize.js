@@ -7,7 +7,7 @@
 
 ;(function ($) {
   var
-  version = '0.7.1',
+  version = '0.7.2',
   extend = $.extend,
   re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:[.](\d+))?)?(?:([-+]\d\d):(\d\d)|Z)$/,
   normalize = function (date, offsetHours, offsetMinutes) {
@@ -101,13 +101,8 @@
     fullDays: 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'.split(','),
     fullMonths: 'January,February,March,April,May,June,July,August,September,October,November,December'.split(','),
     ordinals: function (n) {
-      if (n < 11 || n > 13) {
-        switch (n % 10) {
-          case 1: return n + 'st';
-          case 2: return n + 'nd';
-          case 3: return n + 'rd';
-        }
-      } return n + 'th';
+      // See [http://jsperf.com/ordinals-in-140-bytes].
+      return n + ['th', 'st', 'nd', 'rd'][n > 10 && n < 14 || (n %= 10) > 3 ? 0 : n];
     },
     periods: ['AM', 'PM']
   });
