@@ -180,6 +180,16 @@
   assert.equal($1.localize({format: 'yyyy'}).text(), '2008');
   assert.match($1.localize().text(), /^[34] June 2008$/);
 
+  // overriding defaults
+  var x = function (num) { return Array(num + 1).join('x').split('') };
+  var xx = function () { return 'xx' };
+  assert.equal($1.localize({format: 'mmm', abbrMonths: x(12)}).text(), 'x');
+  assert.equal($1.localize({format: 'mmmm', fullMonths: x(12)}).text(), 'x');
+  assert.equal($1.localize({format: 'ddd', abbrDays: x(7)}).text(), 'x');
+  assert.equal($1.localize({format: 'dddd', fullDays: x(7)}).text(), 'x');
+  assert.equal($1.localize({format: 'o', ordinals: xx}).text(), 'xx');
+  assert.equal($1.localize({format: 'a', periods: x(2)}).text(), 'x');
+
   $.localize.format = 'd mmmm yyyy';
   $.localize.fullDays = 'dimanche lundi mardi mercredi jeudi vendredi samedi'.split(' ');
   $.localize.fullMonths = 'janvier février mars avril mai juin juillet août septembre octobre novembre décembre'.split(' ');
