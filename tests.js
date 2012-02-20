@@ -207,6 +207,8 @@
 
   // "%%" should be converted to "%"
   assert.equal($1.localize('80%% complete').text(), '80% complete');
+  assert.equal($1.localize('%%%%').text(), '%%');
+  assert.equal($1.localize('~~P').text(), '~~P');
 
   // direct custom function usage
   $1.localize(function (date) {
