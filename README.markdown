@@ -244,6 +244,21 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.8.0
+
+  * Translated source to CoffeeScript, considerably improving its readability.
+    When minified and gzipped, the resulting JavaScript file is only slightly
+    larger than its hand-optimized predecessor.
+
+  * Fixed a bug which caused `jQuery.fn.localize` to ignore certain options
+    passed to it. [`aec2f34`][aec2f34]
+
+  * Fixed a bug affecting format strings with more than one escaped percent
+    sign. [`65ac913`][65ac913]
+
+[aec2f34]: https://github.com/davidchambers/jQuery.localize/commit/aec2f34959aa
+[65ac913]: https://github.com/davidchambers/jQuery.localize/commit/65ac9135b11c
+
 ### 0.7.2
 
   * Optimized `jQuery.localize.ordinals`.

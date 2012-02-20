@@ -1,3 +1,5 @@
+window.$ = null; // jQuery alias should not be relied upon
+
 (function ($) {
   var
     expected,
