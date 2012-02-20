@@ -19,6 +19,9 @@
     }
     return date;
   },
+  get = function (option) {
+    return options[option] || $localize[option];
+  },
   pad = function (num, chars) {
     return (num + 1000 + '').substr(4 - (chars || 2));
   },
@@ -27,13 +30,13 @@
     yyyy  : function (date) { return date.getFullYear(); },
     m     : function (date) { return date.getMonth() + 1; },
     mm    : function (date) { return pad(_.m(date)); },
-    mmm   : function (date) { return $localize.abbrMonths[_.m(date) - 1]; },
-    mmmm  : function (date) { return $localize.fullMonths[_.m(date) - 1]; },
+    mmm   : function (date) { return get('abbrMonths')[_.m(date) - 1]; },
+    mmmm  : function (date) { return get('fullMonths')[_.m(date) - 1]; },
     d     : function (date) { return date.getDate(); },
     dd    : function (date) { return pad(_.d(date)); },
-    ddd   : function (date) { return $localize.abbrDays[date.getDay()]; },
-    dddd  : function (date) { return $localize.fullDays[date.getDay()]; },
-    o     : function (date) { return $localize.ordinals(_.d(date)); },
+    ddd   : function (date) { return get('abbrDays')[date.getDay()]; },
+    dddd  : function (date) { return get('fullDays')[date.getDay()]; },
+    o     : function (date) { return get('ordinals')(_.d(date)); },
     h     : function (date) { return _.H(date) % 12 || 12; },
     hh    : function (date) { return pad(_.h(date)); },
     H     : function (date) { return date.getHours(); },
@@ -44,7 +47,7 @@
     ss    : function (date) { return pad(_.s(date)); },
     S     : function (date) { return _.s(date) + '.' + pad(date % 1000, 3); },
     SS    : function (date) { return _.ss(date) + '.' + pad(date % 1000, 3); },
-    a     : function (date) { return $localize.periods[+(_.H(date) > 11)]; },
+    a     : function (date) { return get('periods')[+(_.H(date) > 11)]; },
     Z     : function (date) { var offset = -date.getTimezoneOffset(), mins = Math.abs(offset);
                               return (offset < 0 ? '-' : '+') + pad(mins / 60 >> 0) + ':' + pad(mins % 60); }
   },
@@ -111,9 +114,13 @@
   $.localize = $localize;
   $.localize.version = version;
 
+  // Store options provided to `jQuery::localize` in outer scope,
+  // so they're accessible to `get`.
+  var options = {};
+
   // Set `jQuery.prototype.localize`.
   $.fn.localize = function (format) {
-    var options = extend({}, $localize), custom, method;
+    var custom, method;
 
     if (typeof format === 'object') {
       extend(options, format);
@@ -123,7 +130,7 @@
     custom = typeof format === 'function';
     method = options.escaped ? 'html' : 'text';
 
-    return this.each(function () {
+    this.each(function () {
       var $time = $(this), date, m;
       if (/^time$/i.test(this.nodeName)) {
         m = re.exec($time.attr('datetime') ||
@@ -140,6 +147,11 @@
         'yyyy-mm-ddTHH:MM' + (m[7] ? ':SS' : m[6] ? ':ss' : '') + 'Z'
       ))[method](custom ? format.call($time, date) : $localize(date, format));
     });
+
+    // Prevent the provided options from affecting future invocations.
+    options = {};
+
+    return this;
   };
 
 }(jQuery));
