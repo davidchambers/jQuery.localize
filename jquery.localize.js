@@ -61,7 +61,7 @@
       return format(date);
     }
     var
-      chars = format.replace('~', '~T').replace('%%', '~P') + '%',
+      chars = format.replace(/~/g, '~T').replace(/%%/g, '~P') + '%',
       chr, dir = '', idx = 0, len = chars.length, output = '', prev;
 
     while (idx < len) {
@@ -93,7 +93,7 @@
       }
       prev = chr;
     }
-    return output.replace('~P', '%').replace('~T', '~');
+    return output.replace(/~P/g, '%').replace(/~T/g, '~');
   };
 
   // Defaults.
