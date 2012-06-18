@@ -91,16 +91,32 @@ $localize = (date, format) ->
 
   out.replace(/~P/g, '%').replace(/~T/g, '~')
 
-$localize.abbrDays    = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-$localize.abbrMonths  = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-$localize.fullDays    = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
-                         'Thursday', 'Friday', 'Saturday']
-$localize.fullMonths  = ['January', 'February', 'March', 'April', 'May',
-                         'June', 'July', 'August', 'September', 'October',
-                         'November', 'December']
-
+$localize.fullDays = [
+  'Sunday'
+  'Monday'
+  'Tuesday'
+  'Wednesday'
+  'Thursday'
+  'Friday'
+  'Saturday'
+]
+$localize.fullMonths = [
+  'January'
+  'February'
+  'March'
+  'April'
+  'May'
+  'June'
+  'July'
+  'August'
+  'September'
+  'October'
+  'November'
+  'December'
+]
+abbreviate = (text) -> text.substr 0, 3
+$localize.abbrDays = jQuery.map $localize.fullDays, abbreviate
+$localize.abbrMonths = jQuery.map $localize.fullMonths, abbreviate
 $localize.format = 'd mmmm yyyy'
 $localize.periods = ['AM', 'PM']
 $localize.ordinals = (n) ->
