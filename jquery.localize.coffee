@@ -76,11 +76,7 @@ $localize = (date, format) ->
         dir += chr
       else
         dir = dir.substr 1
-        out +=
-          if _.hasOwnProperty dir
-            if $localize.escaped then jQuery('<b>').text(_[dir] date).html()
-            else _[dir] date
-          else dir
+        out += if _.hasOwnProperty dir then _[dir] date else dir
     unless /%/.test dir
       dir =
         if /%/.test format
