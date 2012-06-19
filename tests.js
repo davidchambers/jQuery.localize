@@ -212,6 +212,21 @@ window.$ = null; // jQuery alias should not be relied upon
   assert.equal($1.localize('%%%%').text(), '%%');
   assert.equal($1.localize('~~P').text(), '~~P');
 
+  // HTML escaping
+  var abbrDays = '&lt;&lt;&lt;&lt;&lt;&lt;&lt;'.split(/(?=&)/);
+  assert.equal(
+    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: false}).html(),
+    '&amp;lt;');
+  assert.equal(
+    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: false}).text(),
+    '&lt;');
+  assert.equal(
+    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: true}).html(),
+    '&lt;');
+  assert.equal(
+    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: true}).text(),
+    '<');
+
   // direct custom function usage
   $1.localize(function (date) {
     assert.instanceOf(this, jQuery);
