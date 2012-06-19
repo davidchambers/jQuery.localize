@@ -105,13 +105,6 @@ Abbreviated month names.
 
 Default: `'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')`
 
-### $.localize.escaped
-
-Determines the jQuery method -- [`text`][2] or [`html`][3] -- to which the
-generated string is passed. Set to `true` if the format string contains HTML.
-
-Default: `false`
-
 ### $.localize.format
 
 Display format. See [directives](#directives) for more information.
@@ -130,6 +123,26 @@ Full month names.
 
 Default: `'January February March April May June July
            August September October November December'.split(' ')`
+
+### $.localize.handler
+
+The function called, with the localized date string as an argument, for each
+element in the jQuery collection. Within the function, `this` references the
+jQuery-wrapped `<time>` element.
+
+If a format string contains HTML, a custom handler is necessary for it to be
+treated as such:
+
+```javascript
+$('time').localize({
+  format: '<span>%d %mmmm %yyyy</span> <span>%h.%MM\u2009%a</span>',
+  handler: function (dateString) {
+    this.html(dateString);
+  }
+});
+```
+
+Default: `function (dateString) { this.text(dateString) }`
 
 ### $.localize.ordinals
 

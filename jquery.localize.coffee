@@ -118,6 +118,7 @@ $localize.periods = ['AM', 'PM']
 $localize.ordinals = (n) ->
   # See [http://jsperf.com/ordinals-in-140-bytes].
   n + ['th', 'st', 'nd', 'rd'][if 10 < n < 14 or (n %= 10) > 3 then 0 else n]
+$localize.handler = (dateString) -> @text dateString
 
 $localize.version = version
 jQuery.localize = $localize
@@ -129,9 +130,9 @@ options = {}
 jQuery.fn.localize = (format) ->
   if typeof format is 'object'
     jQuery.extend options, format
-    {format} = options
+    {format, handler} = options
   format or= $localize.format
-  method = if options.escaped then 'html' else 'text'
+  handler or= $localize.handler
 
   @each ->
     $time = jQuery this
@@ -146,10 +147,10 @@ jQuery.fn.localize = (format) ->
     )
     $time.attr 'datetime', $localize date,
       "yyyy-mm-ddTHH:MM#{if m[7] then ':SS' else if m[6] then ':ss' else ''}Z"
-    $time[method](
+
+    handler.call $time,
       if typeof format is 'function' then format.call $time, date
       else $localize date, format
-    )
 
   options = {}
   this

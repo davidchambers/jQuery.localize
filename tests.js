@@ -164,16 +164,6 @@ window.$ = null; // jQuery alias should not be relied upon
   assert.equal($1.localize('~').text(), '~');
   assert.equal($1.localize('~T').text(), '~T');
 
-  // HTML handling
-
-  assert.equal(
-    $1.localize('<span>80%% complete</span>').text(),
-    '<span>80% complete</span>');
-
-  assert.equal(
-    $1.localize({escaped: true, format: '<span>80%% complete</span>'}).text(),
-    '80% complete');
-
   // API tests
 
   assert.match($1.localize().text(), /^[34] June 2008$/);
@@ -214,17 +204,18 @@ window.$ = null; // jQuery alias should not be relied upon
 
   // HTML escaping
   var abbrDays = '&lt;&lt;&lt;&lt;&lt;&lt;&lt;'.split(/(?=&)/);
+  var handler = function (dateString) { this.html(dateString) };
   assert.equal(
-    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: false}).html(),
+    $1.localize({format: 'ddd', abbrDays: abbrDays}).html(),
     '&amp;lt;');
   assert.equal(
-    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: false}).text(),
+    $1.localize({format: 'ddd', abbrDays: abbrDays}).text(),
     '&lt;');
   assert.equal(
-    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: true}).html(),
+    $1.localize({format: 'ddd', abbrDays: abbrDays, handler: handler}).html(),
     '&lt;');
   assert.equal(
-    $1.localize({format: 'ddd', abbrDays: abbrDays, escaped: true}).text(),
+    $1.localize({format: 'ddd', abbrDays: abbrDays, handler: handler}).text(),
     '<');
 
   // direct custom function usage
