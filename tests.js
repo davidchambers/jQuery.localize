@@ -236,10 +236,12 @@ window.$ = null; // jQuery alias should not be relied upon
 
   // $.localize(date, format)
   assert.equal($.localize(new Date('26 April 1984'), 'yy'), '84');
+  assert.equal($.localize(+new Date('26 April 1984'), 'yy'), '84');
 
   // $.localize(date)
   $.localize.format = 'yyyy-mm-dd';
   assert.equal($.localize(new Date('26 April 1984')), '1984-04-26');
+  assert.equal($.localize(+new Date('26 April 1984')), '1984-04-26');
 
   // $.localize(format)
   assert.match($.localize('d/m/yyyy'), /^[123]?\d\/1?\d\/20\d\d$/);

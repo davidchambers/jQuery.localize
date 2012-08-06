@@ -9,7 +9,7 @@
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ###
 
-version = '0.8.0'
+version = '0.8.1'
 
 re = ///
   ^
@@ -62,6 +62,8 @@ _ =
           "#{if offset < 0 then '-' else '+'}#{pad m / 60 >> 0}:#{pad m % 60}"
 
 $localize = (date, format) ->
+  if typeof date is 'number'
+    date = new Date date
   unless date instanceof Date
     format = date
     date = new Date
