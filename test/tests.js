@@ -255,6 +255,6 @@ window.$ = null; // jQuery alias should not be relied upon
   // version property
   assert.equal(typeof $.localize.version, 'string');
 
-  console.log(n - failures + ' of ' + n + ' tests succeeded for jQuery ' + $().jquery);
+  console.log(n - failures + ' of ' + n + ' tests succeeded for jQuery ' + $.fn.jquery);
 
 }(jQuery));

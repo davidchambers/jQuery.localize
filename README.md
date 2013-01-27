@@ -259,6 +259,10 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.9.0
+
+  * Restructured project. No code changes.
+
 ### 0.8.1
 
   * Removed `escaped` option in favour of a versatile `handler` option.
