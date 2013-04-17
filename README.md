@@ -48,13 +48,14 @@ When passed a string (or function), the argument represents `format`.
 
 ### $.localize(date, format)
 
-Return `date` in the specified `format`. For convenience, `date` may be a Unix
-timestamp rather than a `Date` object.
+Return `date` in the specified `format`. For convenience, `date` may be the
+number of milliseconds since the Unix epoch rather than a `Date` object.
 
 ### $.localize(date)
 
 Return `date` in the format specified by `$.localize.format`. For convenience,
-`date` may be a Unix timestamp rather than a `Date` object.
+`date` may be the number of milliseconds since the Unix epoch rather than a
+`Date` object.
 
 ### $.localize(format)
 
