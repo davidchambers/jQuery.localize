@@ -260,6 +260,11 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.9.1
+
+  * Accept SPACE in place of LATIN CAPITAL LETTER T in `datetime` attribute
+    values, in accordance with [HTML 5.1][2].
+
 ### 0.9.0
 
   * Restructured project. No code changes.
@@ -433,5 +438,4 @@ Initial release.
 
 
 [1]: http://html5doctor.com/the-time-element/
-[2]: http://api.jquery.com/text/
-[3]: http://api.jquery.com/html/
+[2]: http://www.w3.org/TR/html51/infrastructure.html#valid-global-date-and-time-string

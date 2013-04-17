@@ -1,6 +1,6 @@
 {
   "name": "jQuery.localize",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "jQuery plugin for localizing dates and times via the `datetime` attribute of the HTML5 `<time>` element",
   "author": "David Chambers <dc@hashify.me>",
   "licenses": [{

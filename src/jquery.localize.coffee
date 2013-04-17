@@ -9,12 +9,12 @@
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ###
 
-version = '0.9.0'
+version = '0.9.1'
 
 re = ///
   ^
   (\d{4})-(\d\d)-(\d\d)     # year-month-date
-  T
+  [T\x20]                   # "T" or " "
   (\d\d):(\d\d)             # hours:minutes
   (?::(\d\d)(?:[.](\d+))?)? # seconds with optional decimal component
   (?:([-+]\d\d):(\d\d)|Z)   # time zone offset
