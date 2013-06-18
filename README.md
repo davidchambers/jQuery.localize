@@ -260,6 +260,11 @@ $('time').localize(function () {
 
 ## Changelog
 
+### 0.9.2
+
+  * Make COLON optional in time-zone offset strings, in accordance with
+    [HTML 5.1][2].
+
 ### 0.9.1
 
   * Accept SPACE in place of LATIN CAPITAL LETTER T in `datetime` attribute

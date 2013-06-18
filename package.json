@@ -1,8 +1,8 @@
 {
   "name": "jQuery.localize",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "jQuery plugin for localizing dates and times via the `datetime` attribute of the HTML5 `<time>` element",
-  "author": "David Chambers <dc@hashify.me>",
+  "author": "David Chambers <dc@davidchambers.me>",
   "licenses": [{
     "type": "WTFPL",
     "url": "https://raw.github.com/davidchambers/jQuery.localize/master/LICENSE"
@@ -12,6 +12,6 @@
     "url": "git://github.com/davidchambers/jQuery.localize.git"
   },
   "devDependencies": {
-    "coffee-script": "1.4.x"
+    "coffee-script": "1.6.x"
   }
 }

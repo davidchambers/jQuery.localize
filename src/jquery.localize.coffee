@@ -9,7 +9,7 @@
 
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ###
 
-version = '0.9.1'
+version = '0.9.2'
 
 re = ///
   ^
@@ -17,7 +17,7 @@ re = ///
   [T\x20]                   # "T" or " "
   (\d\d):(\d\d)             # hours:minutes
   (?::(\d\d)(?:[.](\d+))?)? # seconds with optional decimal component
-  (?:([-+]\d\d):(\d\d)|Z)   # time zone offset
+  (?:([-+]\d\d):?(\d\d)|Z)  # time zone offset
   $
 ///
 
