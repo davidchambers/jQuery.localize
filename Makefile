@@ -1,13 +1,20 @@
-.PHONY: setup test
+COFFEE = node_modules/.bin/coffee
 
-bin = node_modules/.bin
+JS_FILES = $(patsubst src/%.coffee,lib/%.js,$(shell find src -type f))
 
-lib/jquery.localize.js: src/jquery.localize.coffee
-	@cat $< | $(bin)/coffee --compile --stdio > $@
 
+.PHONY: all
+all: $(JS_FILES)
+
+lib/%.js: src/%.coffee
+	@cat $< | $(COFFEE) --compile --stdio > $@
+
+
+.PHONY: setup
 setup:
 	@npm install
 
-test:
-	@make lib/jquery.localize.js
+
+.PHONY: test
+test: all
 	@open test/tests.html
