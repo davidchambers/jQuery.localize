@@ -7,14 +7,14 @@ JS_FILES = $(patsubst src/%.coffee,lib/%.js,$(shell find src -type f))
 all: $(JS_FILES)
 
 lib/%.js: src/%.coffee
-	@cat $< | $(COFFEE) --compile --stdio > $@
+	cat $< | $(COFFEE) --compile --stdio > $@
 
 
 .PHONY: setup
 setup:
-	@npm install
+	npm install
 
 
 .PHONY: test
 test: all
-	@open test/tests.html
+	open test/tests.html
