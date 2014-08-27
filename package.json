@@ -12,6 +12,6 @@
     "url": "git://github.com/davidchambers/jQuery.localize.git"
   },
   "devDependencies": {
-    "coffee-script": "1.6.x"
+    "coffee-script": "1.8.x"
   }
 }
